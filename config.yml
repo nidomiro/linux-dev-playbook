@@ -1,0 +1,35 @@
+configure_dotfiles: true
+dotfiles_repo: https://github.com/nidomiro/dotfiles.git
+dotfiles_repo_version: main
+dotfiles_repo_accept_hostkey: true
+dotfiles_repo_local_destination: ~/workspace/nidomiro.de/dotfiles
+dotfiles_files:
+  - .gitconfig
+  - .gitignore
+  - .gnupg/gpg.conf
+  - .gnupg/gpg-agent.conf
+  - .profile
+  - .shell/common.sh
+  - .shell/linux.sh
+#  - .vimrc
+
+pip_install_packages:
+  - name: docker
+  - name: docker-compose
+  - name: virtualenv
+  - name: PyMySQL
+  - name: psycopg2-binary
+
+apt_packages:
+  - build-essential
+  - maven
+  - gimp
+  - python3-pip
+  - firefox
+  - thunderbird
+  - kmymoney
+  - vim
+  - rsync
+  - exfat-fuse
+  - exfat-utils
+  - printer-driver-gutenprint
