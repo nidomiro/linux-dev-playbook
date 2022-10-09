@@ -20,6 +20,10 @@ pip_install_packages:
   - name: PyMySQL
   - name: psycopg2-binary
 
+apt_repositories:
+  - repo: "deb [signed-by=/usr/share/keyrings/syncthing-archive-keyring.gpg] https://apt.syncthing.net/ syncthing stable"
+    filename: syncthing
+
 apt_packages:
   - build-essential
   - maven
@@ -33,3 +37,10 @@ apt_packages:
   - exfat-fuse
   - exfat-utils
   - printer-driver-gutenprint
+  - syncthing
+  - syncthing-gtk
+
+flatpak_system_packages: []
+
+flatpak_user_packages:
+  - org.keepassxc.KeePassXC

@@ -1,4 +1,19 @@
 ---
+
+- name: Download syncthing gpg key
+  become: true
+  ansible.builtin.get_url:
+    url: https://syncthing.net/release-key.gpg
+    dest: /usr/share/keyrings/syncthing-archive-keyring.gpg
+
+- name: Add apt-repositories
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "{{ item.repo }}"
+    filename: "{{ item.filename }}"
+  loop: "{{ apt_repositories }}"
+
+
 - name: Update apt-cache
   become: true
   apt:

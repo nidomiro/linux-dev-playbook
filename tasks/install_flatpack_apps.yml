@@ -1,0 +1,14 @@
+---
+  
+- name: Install flatpack system apps
+  become: true
+  community.general.flatpak:
+    name: "{{ flatpak_system_packages }}"
+    state: present
+
+- name: Install flatpack user apps
+  become: true
+  community.general.flatpak:
+    name: "{{ flatpak_user_packages }}"
+    method: user
+    state: present
