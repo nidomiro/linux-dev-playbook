@@ -1,0 +1,35 @@
+---
+- name: Update apt-cache
+  become: true
+  apt:
+    update_cache: true
+    cache_valid_time: 3600
+  when: ansible_os_family == 'Debian'
+
+- name: Update system
+  become: true
+  apt:
+    upgrade: full
+    autoremove: true
+    cache_valid_time: 3600
+  when: ansible_os_family == 'Debian'
+
+- name: Install Apt Packages
+  become: true
+  apt:
+    pkg: "{{apt_packages}}"
+    state: latest
+    update_cache: true
+  when: ansible_os_family == 'Debian'
+
+- name: Install git
+  ansible.builtin.include_role:
+    name: geerlingguy.git
+    apply:
+      become: true
+
+- name: Install pip packages
+  ansible.builtin.include_role:
+    name: geerlingguy.pip
+    apply:
+      become: true

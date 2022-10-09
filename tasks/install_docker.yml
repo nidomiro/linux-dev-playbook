@@ -1,0 +1,14 @@
+---
+  
+- name: Install Docker
+  ansible.builtin.include_role:
+    name: geerlingguy.docker
+    apply:
+      become: true
+
+- name: Make sure user '{{ my_user }}' is in docker group
+  become: true
+  ansible.builtin.user:
+    name: "{{ my_user }}"
+    append: True
+    groups: docker
