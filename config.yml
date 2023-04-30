@@ -35,12 +35,51 @@ apt_packages:
   - vim
   - rsync
   - exfat-fuse
-  - exfat-utils
+  - exfatprogs
   - printer-driver-gutenprint
   - syncthing
   - syncthing-gtk
+  - mkvtoolnix
+  - mkvtoolnix-gui
+  - flatpak
+  - plasma-discover-backend-flatpak
+  - steam
+  - scdaemon
 
-flatpak_system_packages: []
-
-flatpak_user_packages:
+flatpak_system_packages:
   - org.keepassxc.KeePassXC
+  - com.github.tchx84.Flatseal
+  - com.heroicgameslauncher.hgl
+  - md.obsidian.Obsidian
+  - net.davidotek.pupgui2
+  - org.kde.ktouch
+  - org.openscad.OpenSCAD
+  - com.nextcloud.desktopclient.nextcloud
+
+flatpak_user_packages: []
+
+snap_packages:
+  - spotify
+  - todoist
+
+snap_packages_classic:
+  - code
+
+nvm_install_node_versions:
+  - 16
+  - 18
+
+nvm_default_node_version: 18
+
+global_npm_packages:
+  - pnpm
+  - nx
+
+
+# TODO: install jetbrains toolbox (https://download.jetbrains.com/toolbox/jetbrains-toolbox-1.27.3.14493.tar.gz => extract and move to extractedPrograms or `/home/niclas/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox`?)
+# TODO: verify that gpg-agent is running on startup
+# TODO: configure nextcloud sync folders (`~/.config/Nextcloud/nextcloud.cfg` + target folder creation) via ansible?
+# TODO: add missing parts from /home/niclas/install_package/prepare_bare_system.sh
+# TODO: configure YubiKey for sudo auth
+
+# TODO: Configure KDE

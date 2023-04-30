@@ -28,9 +28,22 @@
     - name: Install Dotfiles
       ansible.builtin.include_role:
         name: geerlingguy.dotfiles
-        
+
     - name: Copy bin
       ansible.builtin.copy:
         src: home/bin/
         dest: ~/bin/
-        
+
+    - name: Run tasks/install_flatpack_apps.yml
+      include_tasks: "tasks/install_flatpack_apps.yml"
+
+    - name: Run tasks/install_snap_apps.yml
+      include_tasks: "tasks/install_snap_apps.yml"
+
+    - name: Run tasks/install_nvm_and_node.yml
+      include_tasks: "tasks/install_nvm_and_node.yml"
+
+    - name: Run tasks/install_deno.yml
+      include_tasks: "tasks/install_deno.yml"
+
+

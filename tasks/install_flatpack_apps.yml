@@ -1,5 +1,19 @@
 ---
-  
+# TODO: only remove if the URL is different
+#- name: Remove the flathub remote from the system installation
+#  become: true
+#  community.general.flatpak_remote:
+#    name: flathub
+#    state: absent
+
+- name: Add the flathub flatpak repository remote
+  become: true
+  community.general.flatpak_remote:
+    name: flathub
+    state: present
+    flatpakrepo_url: https://flathub.org/repo/flathub.flatpakrepo
+    #https://dl.flathub.org/repo/flathub.flatpakrepo
+
 - name: Install flatpack system apps
   become: true
   community.general.flatpak:
@@ -7,7 +21,6 @@
     state: present
 
 - name: Install flatpack user apps
-  become: true
   community.general.flatpak:
     name: "{{ flatpak_user_packages }}"
     method: user

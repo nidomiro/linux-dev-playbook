@@ -1,0 +1,37 @@
+---
+
+
+- name: install nvm
+  shell: >
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+  args:
+    executable: /bin/bash
+    chdir: "{{ ansible_env.HOME }}"
+    creates: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
+
+- name: "install node {{ item }}"
+  shell: >
+    source ~/.nvm/nvm.sh && nvm install {{ item }}
+  args:
+    executable: /bin/bash
+    chdir: "{{ ansible_env.HOME }}"
+    creates: "{{ ansible_env.HOME }}/.nvm/versions/node/v{{ item }}*"
+  loop: "{{ nvm_install_node_versions }}"
+
+# TODO: Test if `nvm_default_node_version` is already default
+- name: "set node {{nvm_default_node_version}} as default"
+  shell: >
+    source ~/.nvm/nvm.sh && nvm use {{nvm_default_node_version}} && nvm alias default {{nvm_default_node_version}}
+  args:
+    executable: /bin/bash
+    chdir: "{{ ansible_env.HOME }}"
+
+# TODO: use this instead (are there problems with nvm?): https://docs.ansible.com/ansible/latest/collections/community/general/npm_module.html
+- name: "install npm packages"
+  shell: >
+    source ~/.nvm/nvm.sh && npm install -g {{ item }}
+  args:
+    executable: /bin/bash
+    chdir: "{{ ansible_env.HOME }}"
+  loop: "{{ global_npm_packages }}"
+
