@@ -9,7 +9,7 @@ ansible-galaxy install -r requirements.yml
 
 ## Run
 ```shell
-ansible-playbook main.yml --ask-become-pass
+ansible-playbook main.yml --ask-become-pass --vault-password-file ./local-secrets/vault-pass
 ```
 
 ## Starting fom clean

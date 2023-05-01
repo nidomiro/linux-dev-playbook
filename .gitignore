@@ -1,3 +1,4 @@
 *.vagrant
 *.retry
 roles*
+local-secrets

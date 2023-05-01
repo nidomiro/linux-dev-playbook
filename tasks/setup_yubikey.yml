@@ -1,0 +1,31 @@
+---
+
+- name: Create Config Directory
+  ansible.builtin.file:
+    path: ~/.config/Yubico
+    state: directory
+    mode: u=rwx,g=rx,o=rx
+
+- name: Copy u2f_keys
+  ansible.builtin.copy:
+    src: setup_yubikey/.config/Yubico/u2f_keys
+    dest: ~/.config/Yubico/u2f_keys
+    mode: g=r,o=r
+
+- name: Alter pam.d/{{ item }} to allow yubikey as single factor
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/pam.d/{{ item }}
+    regexp: '^auth\s+sufficient\s+pam_u2f.so'
+    line: 'auth sufficient pam_u2f.so cue pinverification=0 origin=pam://Dragosz'
+    insertbefore: '^@include common-auth'
+    state: present
+    backup: yes
+    #validate: 'visudo -cf %s'
+  loop:
+    - runuser
+    - runuser-l
+    - su
+    - sudo
+    - sudo-i
+    - su-l

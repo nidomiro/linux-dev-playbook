@@ -46,4 +46,7 @@
     - name: Run tasks/install_deno.yml
       include_tasks: "tasks/install_deno.yml"
 
+    - name: Run tasks/setup_yubikey.yml
+      include_tasks: "tasks/setup_yubikey.yml"
+
 
