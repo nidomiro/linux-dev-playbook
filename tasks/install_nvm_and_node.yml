@@ -19,7 +19,8 @@
   loop: "{{ nvm_install_node_versions }}"
 
 - name: Check nvm default version
-  command: "nvm current"
+  shell: >
+    source ~/.nvm/nvm.sh && nvm current
   register: nvm_current
   changed_when: false
   ignore_errors: true

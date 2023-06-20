@@ -37,8 +37,8 @@
     - name: Run tasks/install_flatpack_apps.yml
       include_tasks: "tasks/install_flatpack_apps.yml"
 
-    - name: Run tasks/install_snap_apps.yml
-      include_tasks: "tasks/install_snap_apps.yml"
+    #- name: Run tasks/install_snap_apps.yml
+    #  include_tasks: "tasks/install_snap_apps.yml"
 
     - name: Run tasks/install_nvm_and_node.yml
       include_tasks: "tasks/install_nvm_and_node.yml"
@@ -46,7 +46,7 @@
     - name: Run tasks/install_deno.yml
       include_tasks: "tasks/install_deno.yml"
 
-    - name: Run tasks/setup_yubikey.yml
-      include_tasks: "tasks/setup_yubikey.yml"
+    #- name: Run tasks/setup_yubikey.yml
+    #  include_tasks: "tasks/setup_yubikey.yml"
 
 

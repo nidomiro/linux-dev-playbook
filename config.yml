@@ -25,10 +25,11 @@ apt_repositories:
     filename: syncthing
   - repo: "ppa:yubico/stable"
     filename: yubico
+  - repo: "ppa:phoerious/keepassxc"
+    filename: keepassxc
 
-apt_packages:
-  - build-essential
-  - maven
+install_packages:
+#  - maven
   - gimp
   - python3-pip
   - firefox
@@ -36,41 +37,72 @@ apt_packages:
   - kmymoney
   - vim
   - rsync
-  - exfat-fuse
   - exfatprogs
-  - printer-driver-gutenprint
   - syncthing
-  - syncthing-gtk
   - mkvtoolnix
   - mkvtoolnix-gui
   - flatpak
-  - plasma-discover-backend-flatpak
-  - steam
-  - scdaemon
   - yubikey-manager
   - yubikey-personalization-gui
+  - kdiff3
+  - keepassxc
+  - kleopatra
+  - filelight
+
+apt_packages:
+  - build-essential
+  - exfat-fuse
+  - printer-driver-gutenprint
+  - syncthing-gtk
+  - plasma-discover-backend-flatpak
+  - scdaemon
   - libpam-yubico
   - libpam-u2f
   - synaptic
+  - steam
+
+dnf_packages:
+  - fedora-workstation-repositories
+  - pam_yubico
+  - pam-u2f
+  - pamu2fcfg
+  - yubikey-manager-qt
+  #- yubioath-desktop
+  - nextcloud-client
+
+additional_yum_repositories:
+  - url: https://packages.microsoft.com/yumrepos/vscode
+    name: Visual Studio Code
+    id: vscode
+    gpgcheck: yes
+    gpgkey: https://packages.microsoft.com/keys/microsoft.asc
+
+
+dnf_packages_after_repo_enable:
+  - steam
+  - code
+  - code-insiders
+
+
 
 flatpak_system_packages:
-  - org.keepassxc.KeePassXC
   - com.github.tchx84.Flatseal
   - com.heroicgameslauncher.hgl
   - md.obsidian.Obsidian
   - net.davidotek.pupgui2
   - org.kde.ktouch
   - org.openscad.OpenSCAD
-  - com.nextcloud.desktopclient.nextcloud
+  - com.spotify.Client
+  - com.todoist.Todoist
+  - com.google.Chrome
 
 flatpak_user_packages: []
 
 snap_packages:
-  - spotify
-  - todoist
+#  - spotify
+#  - todoist
 
-snap_packages_classic:
-  - code
+snap_packages_classic: []
 
 nvm_install_node_versions:
   - 16
@@ -83,8 +115,14 @@ global_npm_packages:
   - nx
 
 
-# TODO: install jetbrains toolbox (https://download.jetbrains.com/toolbox/jetbrains-toolbox-1.27.3.14493.tar.gz => extract and move to extractedPrograms or `/home/niclas/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox`?)
 # TODO: configure nextcloud sync folders (`~/.config/Nextcloud/nextcloud.cfg` + target folder creation) via ansible?
-# TODO: add missing parts from /home/niclas/install_package/prepare_bare_system.sh
+# TODO: add Jetbrains Mono Font?
+# TODO: add ~~Virtualbox?~~ => kvm
+# TODO: add restic (sudo bash -c "curl -s -L https://github.com/restic/restic/releases/download/v0.15.2/restic_0.15.2_linux_amd64.bz2 | bunzip2 > /bin/restic && chmod +x /bin/restic")
+
+# TODO: install ubuntu vscode from deb, as snap does not have access to gpg. downloadLink: https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64
+# TODO: install ubuntu vscode-insider from deb, as snap does not have access to gpg. downloadLink: https://code.visualstudio.com/sha/download?build=insider&os=linux-deb-x64
 
 # TODO: Configure KDE
+
+# TODO: install nextcloud client

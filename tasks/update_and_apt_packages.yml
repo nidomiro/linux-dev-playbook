@@ -5,6 +5,7 @@
   ansible.builtin.get_url:
     url: https://syncthing.net/release-key.gpg
     dest: /usr/share/keyrings/syncthing-archive-keyring.gpg
+  when: ansible_os_family == 'Debian'
 
 - name: Add apt-repositories
   become: true
@@ -12,16 +13,24 @@
     repo: "{{ item.repo }}"
     filename: "{{ item.filename }}"
   loop: "{{ apt_repositories }}"
+  when: ansible_os_family == 'Debian'
 
 
-- name: Update apt-cache
+- name: Update Package Cache (apt/Debian)
   become: true
   apt:
     update_cache: true
     cache_valid_time: 3600
   when: ansible_os_family == 'Debian'
 
-- name: Update system
+- name: Update Package Cache (dnf/RedHat)
+  become: true
+  dnf:
+    update_cache: yes
+  changed_when: false
+  when: ansible_os_family == "RedHat"
+
+- name: Update system (apt/Debian)
   become: true
   apt:
     upgrade: full
@@ -29,13 +38,72 @@
     cache_valid_time: 3600
   when: ansible_os_family == 'Debian'
 
-- name: Install Apt Packages
+- name: Update system (dnf/RedHat)
+  become: true
+  dnf:
+    name: '*'
+    state: latest
+  when: ansible_os_family == "RedHat"
+
+- name: Install Generic Packages
+  become: true
+  package:
+    name: "{{install_packages}}"
+    state: latest
+
+- name: Install Packages (apt/Debian)
   become: true
   apt:
     pkg: "{{apt_packages}}"
     state: latest
     update_cache: true
   when: ansible_os_family == 'Debian'
+
+- name: Install Packages (dnf/RedHat)
+  become: true
+  dnf:
+    name: "{{dnf_packages}}"
+    state: latest
+    update_cache: yes
+  when: ansible_os_family == "RedHat"
+
+- name: Enable rpmfusion-nonfree-steam repo (dnf/RedHat)
+  become: true
+  community.general.ini_file:
+    path:       /etc/yum.repos.d/rpmfusion-nonfree-steam.repo
+    section:    rpmfusion-nonfree-steam
+    option:     enabled
+    value:      1
+    create:     no
+  when: ansible_os_family == "RedHat"
+
+- name: Add additional repositories (dnf/RedHat)
+  become: true
+  ansible.builtin.yum_repository:
+    name: "{{ item.id }}"
+    baseurl: "{{ item.url }}"
+    gpgcheck: "{{ item.gpgcheck }}"
+    gpgkey: "{{ item.gpgkey }}"
+    file: "{{ item.id }}"
+    enabled: yes
+    description: "{{ item.name }}"
+  loop: "{{ additional_yum_repositories }}"
+  when: ansible_os_family == "RedHat"
+
+- name: Update Package Cache after adding Repos (dnf/RedHat)
+  become: true
+  dnf:
+    update_cache: yes
+  changed_when: false
+  when: ansible_os_family == "RedHat"
+
+- name: Install Packages after repo enable (dnf/RedHat)
+  become: true
+  dnf:
+    name: "{{dnf_packages_after_repo_enable}}"
+    state: latest
+    update_cache: yes
+  when: ansible_os_family == "RedHat"
 
 - name: Install git
   ansible.builtin.include_role:
