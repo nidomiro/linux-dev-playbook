@@ -77,6 +77,14 @@
     create:     no
   when: ansible_os_family == "RedHat"
 
+- name: Add additional copr repositories (dnf/RedHat)
+  become: true
+  community.general.copr:
+    host: copr.fedorainfracloud.org
+    state: enabled
+    name: atim/starship
+  when: ansible_os_family == "RedHat"
+
 - name: Add additional repositories (dnf/RedHat)
   become: true
   ansible.builtin.yum_repository:

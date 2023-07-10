@@ -1,0 +1,23 @@
+---
+
+- name: Copy fonts to system
+  become: true
+  ansible.builtin.copy:
+    src: "tasks/fonts/{{ item }}"
+    dest: /usr/share/fonts/
+    owner: root
+    group: root
+    mode: 644
+  loop:
+    - 'Inconsolata'
+  notify:
+    - Update font cache
+
+- name: Copy fonts to user
+  ansible.builtin.copy:
+    src: "tasks/fonts/{{ item }}"
+    dest: ~/.fonts
+  loop:
+    - 'Inconsolata'
+  notify:
+    - Update font cache

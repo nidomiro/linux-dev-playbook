@@ -7,6 +7,10 @@
   vars:
     my_user: "{{ ansible_user_id }}"
 
+  handlers:
+    - name: Update font cache
+      become: true
+      ansible.builtin.shell: fc-cache -v
 
   pre_tasks:
     - name: Make sure the needed directories exist
@@ -17,6 +21,7 @@
         - ~/.gnupg
         - ~/.shell
         - ~/bin
+        - ~/.fonts
 
   tasks:
     - name: Run tasks/update_and_apt_packages.yml
@@ -48,5 +53,8 @@
 
     #- name: Run tasks/setup_yubikey.yml
     #  include_tasks: "tasks/setup_yubikey.yml"
+
+    - name: Run tasks/fonts/install_fonts.yml
+      include_tasks: "tasks/fonts/install_fonts.yml"
 
 
