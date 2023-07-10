@@ -12,6 +12,9 @@ ansible-galaxy install -r requirements.yml
 ansible-playbook main.yml --ask-become-pass --vault-password-file ./local-secrets/vault-pass
 ```
 
+## TODO
+- change current users shell to zsh
+
 ## Starting from clean (fedora) with Backup
 1. Upgrade System via Console (UI may not work): `sudo dnf upgrade --refresh`
 2. Restart the pc
@@ -41,6 +44,13 @@ ansible-playbook main.yml --ask-become-pass --vault-password-file ./local-secret
     1.  Firmware version Info: `sudo dnf install lshw dmidecode -y && sudo dmidecode | grep -A3 'Vendor:\|Product:' && sudo lshw -C cpu | grep -A3 'product:\|vendor:'`
     2.  Brightness keys: `sudo grubby --update-kernel=ALL --args="module_blacklist=hid_sensor_hub"`
     3.  Better Powersave with nvme: `sudo grubby --update-kernel=ALL --args="nvme.noacpi=1"`
+    4.  Intel Graphics VA-API:
+        1.  ```shell
+            sudo dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
+            sudo dnf install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+            ```
+        2. `sudo dnf groupinstall multimedia`
+        3. `sudo dnf install intel-media-driver libva libva-utils gstreamer1-vaapi ffmpeg intel-gpu-tools mesa-dri-drivers mpv --skpi-broken`
 
 ## Starting from clean (kubuntu)
 
