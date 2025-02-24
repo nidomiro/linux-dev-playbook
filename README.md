@@ -18,29 +18,30 @@ ansible-playbook main.yml --ask-become-pass --vault-password-file ./local-secret
 ## Starting from clean (fedora) with Backup
 1. Upgrade System via Console (UI may not work): `sudo dnf upgrade --refresh`
 2. Restart the pc
-3. `sudo dnf install pip3`
-4. copy `workspace/` to `~/workspace/`
-5. Copy the following configs into place:
-   1. Nextcloud: Target Path: `~/.config/Nextcloud`
-   2. Syncthing: Target Path: `~/.config/syncthing`
-   3. Egosoft: Target Path: `~/.config/EgoSoft`
-   4. Firefox: Target Path: `~/.mozilla`
-   5. Thunderbird: Target Path: `~/.thunderbird`
-   6. Steam: Target Path: `~/.steam`
-   7. Obsidian: Target Path: `~/.var/app/md.obsidian.Obsidian/`
-   8. SSH Config: Target Path: `~/.ssh/config`
-6. `cd ~/workspace/nidomiro.de/linux-dev-playbook/`
-7. `pip3 install ansible`
-8. `ansible-galaxy install -r requirements.yml`
-9. `ansible-playbook main.yml --ask-become-pass --vault-password-file ./local-secrets/vault-pass`
-10.  Make sure plasma loads `.profile`
+3. `sudo dnf install pip3 python3-libdnf5`
+4. Data Migration from old system
+    1. copy `workspace/` to `~/workspace/`
+    2. Copy the following configs into place:
+        1. Nextcloud: Target Path: `~/.config/Nextcloud`
+        2. Syncthing: Target Path: `~/.config/syncthing`
+        3. Egosoft: Target Path: `~/.config/EgoSoft`
+        4. Firefox: Target Path: `~/.mozilla`
+        5. Thunderbird: Target Path: `~/.thunderbird`
+        6. Steam: Target Path: `~/.steam`
+        7. Obsidian: Target Path: `~/.var/app/md.obsidian.Obsidian/`
+        8. SSH Config: Target Path: `~/.ssh/config`
+5. `cd ~/workspace/nidomiro.de/linux-dev-playbook/`
+6. `pip3 install ansible`
+7. `ansible-galaxy install -r requirements.yml`
+8. `ansible-playbook main.yml --ask-become-pass --vault-password-file ./local-secrets/vault-pass`
+9.  Make sure plasma loads `.profile`
     1.  `mkdir -p $HOME/.config/plasma-workspace/env`
     2.  `echo 'source $HOME/.profile' > $HOME/.config/plasma-workspace/env/load.profile.sh`
     3.  `chmod +x $HOME/.config/plasma-workspace/env/load.profile.sh`
-11.  Start and enable Syncthing
+10.  Start and enable Syncthing
     1.  `sudo systemctl enable syncthing@$USER.service`
     2.  `sudo systemctl start syncthing@$USER.service`
-12.  On Framework 13:
+11.  On Framework 13:
     1.  Firmware version Info: `sudo dnf install lshw dmidecode -y && sudo dmidecode | grep -A3 'Vendor:\|Product:' && sudo lshw -C cpu | grep -A3 'product:\|vendor:'`
     2.  Brightness keys: `sudo grubby --update-kernel=ALL --args="module_blacklist=hid_sensor_hub"`
     3.  Better Powersave with nvme: `sudo grubby --update-kernel=ALL --args="nvme.noacpi=1"`

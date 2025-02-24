@@ -1,0 +1,44 @@
+---
+
+
+- name: install fnm
+  shell: >
+    curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell
+  args:
+    executable: /bin/bash
+    chdir: "{{ ansible_env.HOME }}"
+    creates: "{{ ansible_env.HOME }}/.local/share/fnm/fnm"
+
+# - name: "install node {{ item }}"
+#   shell: >
+#     source ~/.nvm/nvm.sh && nvm install {{ item }}
+#   args:
+#     executable: /bin/bash
+#     chdir: "{{ ansible_env.HOME }}"
+#     creates: "{{ ansible_env.HOME }}/.nvm/versions/node/v{{ item }}*"
+#   loop: "{{ nvm_install_node_versions }}"
+
+# - name: Check nvm default version
+#   shell: >
+#     source ~/.nvm/nvm.sh && nvm current
+#   register: nvm_current
+#   changed_when: false
+#   ignore_errors: true
+
+# - name: "set node {{nvm_default_node_version}} as default"
+#   shell: >
+#     source ~/.nvm/nvm.sh && nvm use {{nvm_default_node_version}} && nvm alias default {{nvm_default_node_version}}
+#   args:
+#     executable: /bin/bash
+#     chdir: "{{ ansible_env.HOME }}"
+#   when: "'{{nvm_default_node_version}}' not in nvm_current.stdout"
+
+# # TODO: use this instead (are there problems with nvm?): https://docs.ansible.com/ansible/latest/collections/community/general/npm_module.html
+# - name: "install npm packages"
+#   shell: >
+#     source ~/.nvm/nvm.sh && npm install -g {{ item }}
+#   args:
+#     executable: /bin/bash
+#     chdir: "{{ ansible_env.HOME }}"
+#   loop: "{{ global_npm_packages }}"
+

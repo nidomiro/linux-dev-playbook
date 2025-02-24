@@ -1,0 +1,24 @@
+---
+
+# dotfiles_repo: https://github.com/nidomiro/dotfiles.git
+# dotfiles_repo_version: main
+# dotfiles_repo_accept_hostkey: true
+# dotfiles_repo_local_destination: ~/workspace/nidomiro.de/dotfiles
+
+
+
+- name: checkout repo
+  ansible.builtin.git:
+    repo: "{{ dotfiles_repo }}"
+    dest: "{{ dotfiles_repo_local_destination }}"
+    version: "{{ dotfiles_repo_version }}"
+    accept_hostkey: "{{ dotfiles_repo_accept_hostkey }}"
+
+- name: install dotfiles
+  shell: >
+    stow -v -t ~ dotfiles
+  args:
+    chdir: "{{ dotfiles_repo_local_destination }}"
+  register: stow_output
+  changed_when: '"LINK" in stow_output.stderr'
+

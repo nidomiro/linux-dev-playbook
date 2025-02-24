@@ -30,9 +30,14 @@
     - name: Run tasks/install_docker.yml
       include_tasks: "tasks/install_docker.yml"
 
-    - name: Install Dotfiles
-      ansible.builtin.include_role:
-        name: geerlingguy.dotfiles
+    - name: Run tasks/setup_dotfiles.yml
+      include_tasks: "tasks/setup_dotfiles.yml"
+      when: configure_dotfiles
+      
+
+    # - name: Install Dotfiles
+    #   ansible.builtin.include_role:
+    #     name: geerlingguy.dotfiles
 
     - name: Copy bin
       ansible.builtin.copy:
@@ -45,8 +50,8 @@
     #- name: Run tasks/install_snap_apps.yml
     #  include_tasks: "tasks/install_snap_apps.yml"
 
-    - name: Run tasks/install_nvm_and_node.yml
-      include_tasks: "tasks/install_nvm_and_node.yml"
+    - name: Run tasks/install_fnm_and_node.yml
+      include_tasks: "tasks/install_fnm_and_node.yml"
 
     - name: Run tasks/install_deno.yml
       include_tasks: "tasks/install_deno.yml"

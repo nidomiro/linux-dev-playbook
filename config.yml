@@ -1,25 +1,12 @@
 configure_dotfiles: true
-dotfiles_repo: https://github.com/nidomiro/dotfiles.git
+dotfiles_repo: git@github.com:nidomiro/dotfiles.git
+#dotfiles_repo: https://github.com/nidomiro/dotfiles.git
 dotfiles_repo_version: main
 dotfiles_repo_accept_hostkey: true
 dotfiles_repo_local_destination: ~/workspace/nidomiro.de/dotfiles
-dotfiles_files:
-  - .gitconfig
-  - .gitignore
-  - .gnupg/gpg.conf
-  - .gnupg/gpg-agent.conf
-  - .profile
-  - .bash_profile
-  - .shell/common.sh
-  - .shell/linux.sh
-  - .shell/aliases.sh
-  - .bashrc
-  - .zshrc
-#  - .vimrc
 
 pip_install_packages:
   - name: docker
-  - name: docker-compose
   - name: virtualenv
   - name: PyMySQL
   - name: psycopg2-binary
@@ -54,6 +41,7 @@ install_packages:
   - filelight
   - zsh
   - kate
+  - fish
 
 apt_packages:
   - build-essential
@@ -111,15 +99,15 @@ snap_packages:
 
 snap_packages_classic: []
 
-nvm_install_node_versions:
-  - 16
-  - 18
+# nvm_install_node_versions:
+#   - 16
+#   - 18
 
-nvm_default_node_version: 18
+# nvm_default_node_version: 18
 
-global_npm_packages:
-  - pnpm
-  - nx
+# global_npm_packages:
+#   - pnpm
+#   - nx
 
 
 # TODO: configure nextcloud sync folders (`~/.config/Nextcloud/nextcloud.cfg` + target folder creation) via ansible?

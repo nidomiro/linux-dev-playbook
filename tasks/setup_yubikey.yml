@@ -17,7 +17,7 @@
   ansible.builtin.lineinfile:
     path: /etc/pam.d/{{ item }}
     regexp: '^auth\s+sufficient\s+pam_u2f.so'
-    line: 'auth sufficient pam_u2f.so cue pinverification=0 origin=pam://Dragosz'
+    line: 'auth sufficient pam_u2f.so cue pinverification=0 origin=pam://Dragosz' # TODO: change to actual HOSTNAME?
     insertbefore: '^@include common-auth'
     state: present
     backup: yes
