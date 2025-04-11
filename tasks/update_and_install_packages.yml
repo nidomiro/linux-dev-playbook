@@ -1,5 +1,4 @@
 ---
-
 - name: Download syncthing gpg key
   become: true
   ansible.builtin.get_url:
@@ -15,6 +14,13 @@
   loop: "{{ apt_repositories }}"
   when: ansible_os_family == 'Debian'
 
+- name: add python3-libdnf5 for dnf task to work
+  become: true
+  ansible.builtin.command: dnf install -y python3-libdnf5
+  register: install_python3_libdnf5_result
+  changed_when: "'Nothing to do' not in install_python3_libdnf5_result.stdout"
+
+  when: ansible_os_family == "RedHat"
 
 - name: Update Package Cache (apt/Debian)
   become: true
@@ -27,7 +33,6 @@
   become: true
   dnf:
     update_cache: yes
-  changed_when: false
   when: ansible_os_family == "RedHat"
 
 - name: Update system (apt/Debian)
@@ -41,7 +46,7 @@
 - name: Update system (dnf/RedHat)
   become: true
   dnf:
-    name: '*'
+    name: "*"
     state: latest
   when: ansible_os_family == "RedHat"
 
@@ -70,11 +75,11 @@
 - name: Enable rpmfusion-nonfree-steam repo (dnf/RedHat)
   become: true
   community.general.ini_file:
-    path:       /etc/yum.repos.d/rpmfusion-nonfree-steam.repo
-    section:    rpmfusion-nonfree-steam
-    option:     enabled
-    value:      1
-    create:     no
+    path: /etc/yum.repos.d/rpmfusion-nonfree-steam.repo
+    section: rpmfusion-nonfree-steam
+    option: enabled
+    value: 1
+    create: no
   when: ansible_os_family == "RedHat"
 
 - name: Add additional copr repositories (dnf/RedHat)

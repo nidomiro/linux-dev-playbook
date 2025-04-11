@@ -24,42 +24,28 @@
         - ~/.fonts
 
   tasks:
-    - name: Run tasks/update_and_apt_packages.yml
-      include_tasks: "tasks/update_and_apt_packages.yml"
+    - include_tasks: "tasks/update_and_install_packages.yml"
 
-    - name: Run tasks/install_docker.yml
-      include_tasks: "tasks/install_docker.yml"
+    - include_tasks: "tasks/install_docker.yml"
 
-    - name: Run tasks/setup_dotfiles.yml
-      include_tasks: "tasks/setup_dotfiles.yml"
+    - include_tasks: "tasks/setup_dotfiles.yml"
       when: configure_dotfiles
-      
-
-    # - name: Install Dotfiles
-    #   ansible.builtin.include_role:
-    #     name: geerlingguy.dotfiles
 
     - name: Copy bin
       ansible.builtin.copy:
         src: home/bin/
         dest: ~/bin/
 
-    - name: Run tasks/install_flatpack_apps.yml
-      include_tasks: "tasks/install_flatpack_apps.yml"
+    - include_tasks: "tasks/install_flatpack_apps.yml"
 
     #- name: Run tasks/install_snap_apps.yml
     #  include_tasks: "tasks/install_snap_apps.yml"
 
-    - name: Run tasks/install_fnm_and_node.yml
-      include_tasks: "tasks/install_fnm_and_node.yml"
+    - include_tasks: "tasks/install_fnm_and_node.yml"
 
-    - name: Run tasks/install_deno.yml
-      include_tasks: "tasks/install_deno.yml"
+    - include_tasks: "tasks/install_deno.yml"
 
     #- name: Run tasks/setup_yubikey.yml
     #  include_tasks: "tasks/setup_yubikey.yml"
 
-    - name: Run tasks/fonts/install_fonts.yml
-      include_tasks: "tasks/fonts/install_fonts.yml"
-
-
+    - include_tasks: "tasks/fonts/install_fonts.yml"

@@ -1,5 +1,4 @@
 ---
-  
 - name: Install Docker
   ansible.builtin.include_role:
     name: geerlingguy.docker
@@ -12,3 +11,12 @@
     name: "{{ my_user }}"
     append: True
     groups: docker
+
+- name: copy daemon.json
+  become: true
+  ansible.builtin.copy:
+    src: "{{ playbook_dir }}/tasks/install_docker/daemon.json"
+    dest: /etc/docker/daemon.json
+    owner: root
+    group: root
+    mode: "0644"
