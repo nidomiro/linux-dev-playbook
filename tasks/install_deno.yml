@@ -1,7 +1,7 @@
 ---
 
 
-- name: install nvm
+- name: install deno
   shell: >
     curl -fsSL https://deno.land/install.sh | sh
   args:

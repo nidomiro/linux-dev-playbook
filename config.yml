@@ -20,7 +20,7 @@ apt_repositories:
     filename: keepassxc
 
 install_packages:
-#  - maven
+  #  - maven
   - gimp
   - python3-pip
   - firefox
@@ -54,6 +54,8 @@ apt_packages:
   - libpam-u2f
   - synaptic
   - steam
+  - fd-find
+  - jq
 
 dnf_packages:
   - fedora-workstation-repositories
@@ -71,14 +73,11 @@ additional_yum_repositories:
     gpgcheck: yes
     gpgkey: https://packages.microsoft.com/keys/microsoft.asc
 
-
 dnf_packages_after_repo_enable:
   - steam
   - code
   - code-insiders
   - starship
-
-
 
 flatpak_system_packages:
   - com.github.tchx84.Flatseal
@@ -98,7 +97,6 @@ snap_packages:
 #  - todoist
 
 snap_packages_classic: []
-
 # nvm_install_node_versions:
 #   - 16
 #   - 18
@@ -108,7 +106,6 @@ snap_packages_classic: []
 # global_npm_packages:
 #   - pnpm
 #   - nx
-
 
 # TODO: configure nextcloud sync folders (`~/.config/Nextcloud/nextcloud.cfg` + target folder creation) via ansible?
 # TODO: add Jetbrains Mono Font?
