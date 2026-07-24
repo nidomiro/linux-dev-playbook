@@ -1,4 +1,4 @@
 *.vagrant
 *.retry
-roles*
+roles/geerlingguy*
 local-secrets
