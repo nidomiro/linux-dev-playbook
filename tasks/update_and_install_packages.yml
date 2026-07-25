@@ -4,7 +4,7 @@
   ansible.builtin.get_url:
     url: https://syncthing.net/release-key.gpg
     dest: /usr/share/keyrings/syncthing-archive-keyring.gpg
-  when: ansible_os_family == 'Debian'
+  when: ansible_facts['os_family'] == 'Debian'
 
 - name: Add apt-repositories
   become: true
@@ -12,7 +12,7 @@
     repo: "{{ item.repo }}"
     filename: "{{ item.filename }}"
   loop: "{{ apt_repositories }}"
-  when: ansible_os_family == 'Debian'
+  when: ansible_facts['os_family'] == 'Debian'
 
 - name: add python3-libdnf5 for dnf task to work
   become: true
@@ -20,20 +20,20 @@
   register: install_python3_libdnf5_result
   changed_when: "'Nothing to do' not in install_python3_libdnf5_result.stdout"
 
-  when: ansible_os_family == "RedHat"
+  when: ansible_facts['os_family'] == "RedHat"
 
 - name: Update Package Cache (apt/Debian)
   become: true
   apt:
     update_cache: true
     cache_valid_time: 3600
-  when: ansible_os_family == 'Debian'
+  when: ansible_facts['os_family'] == 'Debian'
 
 - name: Update Package Cache (dnf/RedHat)
   become: true
   dnf:
     update_cache: yes
-  when: ansible_os_family == "RedHat"
+  when: ansible_facts['os_family'] == "RedHat"
 
 - name: Update system (apt/Debian)
   become: true
@@ -41,14 +41,14 @@
     upgrade: full
     autoremove: true
     cache_valid_time: 3600
-  when: ansible_os_family == 'Debian'
+  when: ansible_facts['os_family'] == 'Debian'
 
 - name: Update system (dnf/RedHat)
   become: true
   dnf:
     name: "*"
     state: latest
-  when: ansible_os_family == "RedHat"
+  when: ansible_facts['os_family'] == "RedHat"
 
 - name: Install Generic Packages
   become: true
@@ -62,7 +62,7 @@
     pkg: "{{apt_packages}}"
     state: latest
     update_cache: true
-  when: ansible_os_family == 'Debian'
+  when: ansible_facts['os_family'] == 'Debian'
 
 - name: Install Packages (dnf/RedHat)
   become: true
@@ -70,7 +70,7 @@
     name: "{{dnf_packages}}"
     state: latest
     update_cache: yes
-  when: ansible_os_family == "RedHat"
+  when: ansible_facts['os_family'] == "RedHat"
 
 - name: Enable rpmfusion-nonfree-steam repo (dnf/RedHat)
   become: true
@@ -80,7 +80,7 @@
     option: enabled
     value: 1
     create: no
-  when: ansible_os_family == "RedHat"
+  when: ansible_facts['os_family'] == "RedHat"
 
 - name: Add additional copr repositories (dnf/RedHat)
   become: true
@@ -88,7 +88,7 @@
     host: copr.fedorainfracloud.org
     state: enabled
     name: atim/starship
-  when: ansible_os_family == "RedHat"
+  when: ansible_facts['os_family'] == "RedHat"
 
 - name: Add additional repositories (dnf/RedHat)
   become: true
@@ -101,14 +101,14 @@
     enabled: yes
     description: "{{ item.name }}"
   loop: "{{ additional_yum_repositories }}"
-  when: ansible_os_family == "RedHat"
+  when: ansible_facts['os_family'] == "RedHat"
 
 - name: Update Package Cache after adding Repos (dnf/RedHat)
   become: true
   dnf:
     update_cache: yes
   changed_when: false
-  when: ansible_os_family == "RedHat"
+  when: ansible_facts['os_family'] == "RedHat"
 
 - name: Install Packages after repo enable (dnf/RedHat)
   become: true
@@ -116,7 +116,7 @@
     name: "{{dnf_packages_after_repo_enable}}"
     state: latest
     update_cache: yes
-  when: ansible_os_family == "RedHat"
+  when: ansible_facts['os_family'] == "RedHat"
 
 - name: Install git
   ansible.builtin.include_role:

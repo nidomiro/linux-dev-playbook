@@ -4,12 +4,33 @@
 # dotfiles_repo_accept_hostkey: true
 # dotfiles_repo_local_destination: ~/workspace/nidomiro.de/dotfiles
 
-- name: checkout repo
+- name: Check whether dotfiles repo already exists
+  ansible.builtin.stat:
+    path: "{{ dotfiles_repo_local_destination }}/.git"
+  register: dotfiles_git_dir
+
+- name: Check for local modifications in dotfiles repo
+  ansible.builtin.command: git status --porcelain
+  args:
+    chdir: "{{ dotfiles_repo_local_destination }}"
+  register: dotfiles_git_status
+  changed_when: false
+  when: dotfiles_git_dir.stat.exists
+
+- name: Update dotfiles repo when there are no local modifications
   ansible.builtin.git:
     repo: "{{ dotfiles_repo }}"
     dest: "{{ dotfiles_repo_local_destination }}"
     version: "{{ dotfiles_repo_version }}"
     accept_hostkey: "{{ dotfiles_repo_accept_hostkey }}"
+  when: not dotfiles_git_dir.stat.exists or dotfiles_git_status.stdout | trim == ""
+
+- name: Keep local dotfiles modifications and skip git update
+  ansible.builtin.debug:
+    msg: >-
+      Local modifications detected in {{ dotfiles_repo_local_destination }}.
+      Skipping dotfiles repo update to avoid overwriting changes.
+  when: dotfiles_git_dir.stat.exists and dotfiles_git_status.stdout | trim != ""
 
 - name: install dotfiles
   shell: |

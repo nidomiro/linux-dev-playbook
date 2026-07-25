@@ -1,6 +1,5 @@
 # linux-dev-playbook
 
-
 ## Installation
 
 ```shell
@@ -8,50 +7,49 @@ ansible-galaxy install -r requirements.yml
 ```
 
 ## Run
+
 ```shell
-ansible-playbook main.yml --ask-become-pass --vault-password-file ./local-secrets/vault-pass
+./deploy.sh
 ```
 
-## TODO
-- change current users shell to zsh
-
 ## Starting from clean (fedora) with Backup
+
 1. Upgrade System via Console (UI may not work): `sudo dnf upgrade --refresh`
 2. Restart the pc
 3. `sudo dnf install pip3 python3-libdnf5`
 4. Data Migration from old system
-    1. copy `workspace/` to `~/workspace/`
-    2. Copy the following configs into place:
-        1. Nextcloud: Target Path: `~/.config/Nextcloud`
-        2. Syncthing: Target Path: `~/.config/syncthing`
-        3. Egosoft: Target Path: `~/.config/EgoSoft`
-        4. Firefox: Target Path: `~/.mozilla`
-        5. Thunderbird: Target Path: `~/.thunderbird`
-        6. Steam: Target Path: `~/.steam`
-        7. Obsidian: Target Path: `~/.var/app/md.obsidian.Obsidian/`
-        8. SSH Config: Target Path: `~/.ssh/config`
+   1. copy `workspace/` to `~/workspace/`
+   2. Copy the following configs into place:
+      1. Nextcloud: Target Path: `~/.config/Nextcloud`
+      2. Syncthing: Target Path: `~/.config/syncthing`
+      3. Egosoft: Target Path: `~/.config/EgoSoft`
+      4. Firefox: Target Path: `~/.mozilla`
+      5. Thunderbird: Target Path: `~/.thunderbird`
+      6. Steam: Target Path: `~/.steam`
+      7. Obsidian: Target Path: `~/.var/app/md.obsidian.Obsidian/`
+      8. SSH Config: Target Path: `~/.ssh/config`
 5. `cd ~/workspace/nidomiro.de/linux-dev-playbook/`
 6. `pip3 install ansible`
 7. `ansible-galaxy install -r requirements.yml`
-8. `ansible-playbook main.yml --ask-become-pass --vault-password-file ./local-secrets/vault-pass`
-9.  Make sure plasma loads `.profile`
-    1.  `mkdir -p $HOME/.config/plasma-workspace/env`
-    2.  `echo 'source $HOME/.profile' > $HOME/.config/plasma-workspace/env/load.profile.sh`
-    3.  `chmod +x $HOME/.config/plasma-workspace/env/load.profile.sh`
-10.  Start and enable Syncthing
-    1.  `sudo systemctl enable syncthing@$USER.service`
-    2.  `sudo systemctl start syncthing@$USER.service`
-11.  On Framework 13:
-    1.  Firmware version Info: `sudo dnf install lshw dmidecode -y && sudo dmidecode | grep -A3 'Vendor:\|Product:' && sudo lshw -C cpu | grep -A3 'product:\|vendor:'`
-    2.  Brightness keys: `sudo grubby --update-kernel=ALL --args="module_blacklist=hid_sensor_hub"`
-    3.  Better Powersave with nvme: `sudo grubby --update-kernel=ALL --args="nvme.noacpi=1"`
-    4.  Intel Graphics VA-API:
-        1.  ```shell
-            sudo dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
-            sudo dnf install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
-            ```
-        2. `sudo dnf groupinstall multimedia`
-        3. `sudo dnf install intel-media-driver libva libva-utils gstreamer1-vaapi ffmpeg intel-gpu-tools mesa-dri-drivers mpv --skpi-broken`
+8. `./deploy.sh`
+9. Make sure plasma loads `.profile`
+   1. `mkdir -p $HOME/.config/plasma-workspace/env`
+   2. `echo 'source $HOME/.profile' > $HOME/.config/plasma-workspace/env/load.profile.sh`
+   3. `chmod +x $HOME/.config/plasma-workspace/env/load.profile.sh`
+10. Start and enable Syncthing
+11. `sudo systemctl enable syncthing@$USER.service`
+12. `sudo systemctl start syncthing@$USER.service`
+13. On Framework 13:
+14. Firmware version Info: `sudo dnf install lshw dmidecode -y && sudo dmidecode | grep -A3 'Vendor:\|Product:' && sudo lshw -C cpu | grep -A3 'product:\|vendor:'`
+15. Brightness keys: `sudo grubby --update-kernel=ALL --args="module_blacklist=hid_sensor_hub"`
+16. Better Powersave with nvme: `sudo grubby --update-kernel=ALL --args="nvme.noacpi=1"`
+17. Intel Graphics VA-API:
+    1. ```shell
+       sudo dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
+       sudo dnf install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+       ```
+    2. `sudo dnf groupinstall multimedia`
+    3. `sudo dnf install intel-media-driver libva libva-utils gstreamer1-vaapi ffmpeg intel-gpu-tools mesa-dri-drivers mpv --skpi-broken`
 
 ## Starting from clean (kubuntu)
 
@@ -87,4 +85,4 @@ ansible-playbook main.yml --ask-become-pass --vault-password-file ./local-secret
     fetch
     quit
     ```
-28. 
+28.
