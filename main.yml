@@ -41,18 +41,10 @@
     #- name: Run tasks/install_snap_apps.yml
     #  include_tasks: "tasks/install_snap_apps.yml"
 
-    #   - include_tasks: "tasks/install_fnm_and_node.yml"
-
-    #   - include_tasks: "tasks/install_deno.yml"
-
     #   #- name: Run tasks/setup_yubikey.yml
     #   #  include_tasks: "tasks/setup_yubikey.yml"
 
     - include_tasks: "tasks/fonts/install_fonts.yml"
-
-    # - name: Install worktrunk
-    #   ansible.builtin.include_role:
-    #     name: install_worktrunk
 
     - name: Install mise
       ansible.builtin.include_role:

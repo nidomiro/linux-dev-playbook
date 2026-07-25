@@ -1,9 +1,0 @@
----
-worktrunk_version: "v0.69.0"
-worktrunk_arch: "x86_64-unknown-linux-musl"
-worktrunk_binary_name: "wt"
-worktrunk_install_dir: "{{ ansible_facts.user_dir }}/bin"
-worktrunk_download_url: "https://github.com/max-sixty/worktrunk/releases/download/{{ worktrunk_version }}/worktrunk-{{ worktrunk_arch }}.tar.xz"
-worktrunk_download_dest: "/tmp/worktrunk.tar.xz"
-worktrunk_extract_dir: "/tmp/worktrunk-extract"
-worktrunk_install_path: "{{ worktrunk_install_dir }}/{{ worktrunk_binary_name }}"
