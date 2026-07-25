@@ -1,0 +1,7 @@
+[tools]
+deno = "2.9.4"
+node = "24.18.0"
+restic = "0.19.1"
+"github:fencesandbox/fence" = "0.1.63"
+"github:can1357/oh-my-pi" = "17.1.0"
+worktrunk = "0.69.0"

@@ -42,6 +42,9 @@ install_packages:
   - zsh
   - kate
   - fish
+  - bubblewrap
+  - socat
+  - bpftrace
 
 apt_packages:
   - build-essential

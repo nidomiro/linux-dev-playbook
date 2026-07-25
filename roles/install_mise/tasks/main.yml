@@ -1,0 +1,43 @@
+---
+- name: Check if mise is installed
+  ansible.builtin.stat:
+    path: "{{ mise_install_path }}"
+  register: mise_binary
+
+- name: Get installed mise version
+  ansible.builtin.command: "{{ mise_install_path }} version"
+  register: mise_version_cmd
+  changed_when: false
+  failed_when: false
+  when: mise_binary.stat.exists
+
+- name: Set installed mise version fact
+  ansible.builtin.set_fact:
+    mise_installed_version: "{{ (mise_version_cmd.stdout | default('') | split(' ') | first | regex_replace('^v', '')) if mise_binary.stat.exists else '' }}"
+
+- name: Set target mise version fact
+  ansible.builtin.set_fact:
+    mise_target_version: "{{ mise_version | regex_replace('^v', '') }}"
+
+- name: Determine if mise install is needed
+  ansible.builtin.set_fact:
+    mise_needs_install: "{{ (not mise_binary.stat.exists) or (mise_installed_version != mise_target_version) }}"
+
+- name: Ensure mise install directory exists
+  ansible.builtin.file:
+    path: "{{ mise_install_dir }}"
+    state: directory
+    mode: "0755"
+  when: mise_needs_install
+
+- name: Install or update mise
+  ansible.builtin.shell: >-
+    curl -fsSL {{ mise_installer_url }} | sh
+  args:
+    executable: /bin/bash
+  environment:
+    MISE_VERSION: "{{ mise_version }}"
+    MISE_INSTALL_PATH: "{{ mise_install_path }}"
+    MISE_INSTALL_SKIP_IF_EXISTS: "1"
+    MISE_INSTALL_HELP: "0"
+  when: mise_needs_install

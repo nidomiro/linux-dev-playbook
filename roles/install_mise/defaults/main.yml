@@ -1,0 +1,5 @@
+---
+mise_version: "v2026.7.13"
+mise_install_path: "{{ ansible_facts.user_dir }}/.local/bin/mise"
+mise_install_dir: "{{ mise_install_path | dirname }}"
+mise_installer_url: "https://mise.run/"
